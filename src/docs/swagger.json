@@ -1,0 +1,1062 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Rede Social Simplificada",
+    "version": "1.0.0",
+    "description": "Documentação da API Express com Swagger do projeto Rede Social Simplificada",
+    "contact": {
+      "name": "Luiz Eduardo Barbosa",
+      "email": "luizbarbosa@alunos.utfpr.edu.br"
+    }
+  },
+  "basePath": "/",
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor Local"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "summary": "Efetuar login",
+        "description": "Efetuar login com uma conta existente",
+        "tags": ["Auth"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Dados para login",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login efetuado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Autenticação realizada com sucesso!",
+                  "token": "<hash>"
+                }
+              }
+            }
+          },
+          "402 - Email": {
+            "description": "Email obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O email é obrigatório!"
+                }
+              }
+            }
+          },
+          "402 - Password": {
+            "description": "Senha obrigatória",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "A senha é obrigatória!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Usuário não encontrado!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Efetuar cadastro",
+        "description": "Efetuar cadastro de uma nova conta",
+        "tags": ["Auth"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Dados para registro",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserRegister"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário registrado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Usuário criado com sucesso!"
+                }
+              }
+            }
+          },
+          "402 - Name": {
+            "description": "Nome obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O nome é obrigatório!"
+                }
+              }
+            }
+          },
+          "402 - Email": {
+            "description": "Email obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O email é obrigatório!"
+                }
+              }
+            }
+          },
+          "402 - Password": {
+            "description": "Senha obrigatória",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "A senha é obrigatória!"
+                }
+              }
+            }
+          },
+          "402 - Confirm Password": {
+            "description": "Confirmação de senha obrigatória e correta",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "As senhas não conferem!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/user": {
+      "put": {
+        "summary": "Atualizar usuário",
+        "description": "Efetuar edição de dados de uma conta existente",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Dados para edição",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserUpdate"
+            }
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado que será editado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário editado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Usuário editado com sucesso!"
+                }
+              }
+            }
+          },
+          "402 - Name": {
+            "description": "Nome obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O nome é obrigatório!"
+                }
+              }
+            }
+          },
+          "402 - Password": {
+            "description": "Senha obrigatória",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "A senha é obrigatória!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar usuário",
+        "description": "Efetuar remoção de uma conta existente",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado que será removido",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Usuário removido com sucesso"
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/findPopularUsersInPost": {
+      "get": {
+        "summary": "Buscar usuários populares",
+        "description": "Efetuar busca de usuários existentes que contém mais curtidas em suas postagens",
+        "tags": ["User"],
+        "responses": {
+          "200": {
+            "description": "Usuários buscados com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Usuários mais populares encontrados com sucesso!",
+                  "data": [
+                    {
+                      "id": 3,
+                      "name": "User1",
+                      "email": "user1@test.com",
+                      "total_likes": "7",
+                      "createdAt": "2023-11-22T12:11:53.732Z",
+                      "updatedAt": "2023-11-22T12:11:53.732Z"
+                    },
+                    {
+                      "id": 2,
+                      "name": "User2",
+                      "email": "user2@test.com",
+                      "total_likes": "5",
+                      "createdAt": "2023-11-22T03:45:16.580Z",
+                      "updatedAt": "2023-11-22T03:45:16.580Z"
+                    },
+                    {
+                      "id": 4,
+                      "name": "User3",
+                      "email": "user3@test.com",
+                      "total_likes": "0",
+                      "createdAt": "2023-11-22T12:12:01.190Z",
+                      "updatedAt": "2023-11-22T12:12:01.190Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/findByName?name=user": {
+      "get": {
+        "summary": "Buscar usuários pelo nome/apelido",
+        "description": "Efetuar busca de usuários existentes pelo nome/apelido",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Informar valor de `name` para filtragem em `query`",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuários buscados com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Usuários encontrados com sucesso!",
+                  "data": [
+                    {
+                      "id": 1,
+                      "name": "User1",
+                      "email": "user1@test.com",
+                      "createdAt": "2023-11-22T03:38:18.769Z",
+                      "updatedAt": "2023-11-22T03:38:18.769Z"
+                    },
+                    {
+                      "id": 2,
+                      "name": "User2",
+                      "email": "user2@test.com",
+                      "createdAt": "2023-11-22T03:38:25.030Z",
+                      "updatedAt": "2023-11-22T03:38:25.030Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Query inválida ou não definida",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você precisa informar o nome(name) em query"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuários não encontrados",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Nem um usuário foi encontrado!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/post": {
+      "post": {
+        "summary": "Criar um novo post",
+        "description": "Efetuar cadastro de uma nova postagem",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "post",
+            "in": "body",
+            "description": "Dados para criação",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PostRegister"
+            }
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado que será vinculado a postagem",
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Postagem criada com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Postagem criada com sucesso!"
+                }
+              }
+            }
+          },
+          "402 - Title": {
+            "description": "Titulo obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O titulo é obrigatório!"
+                }
+              }
+            }
+          },
+          "402 - Description": {
+            "description": "Descrição obrigatória",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "A descrição é obrigatória!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/:id": {
+      "delete": {
+        "summary": "Deletar postagem",
+        "description": "Efetuar remoção de uma postagem existente",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "id da postagem que será removida",
+            "required": true
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado que é o mesmo utilizado no vinculo da postagem para ser removida",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Postagem removida com sucesso"
+          },
+          "404": {
+            "description": "Postagem não encontrada",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Postagem especificada não encontrada!"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Não autorizado remover a postagem",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você não pode excluir essa postagem!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Buscar postagem pelo id",
+        "description": "Efetuar busca de postagem existente",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "id da postagem que será buscada",
+            "required": true
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postagem buscada com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Postagem encontrada com sucesso!",
+                  "data": {
+                    "id": 4,
+                    "title": "Titulo Post Teste 1",
+                    "description": "Descricao da postagem de teste 1",
+                    "likes": 3,
+                    "createdAt": "2023-11-22T12:05:23.162Z",
+                    "updatedAt": "2023-11-22T12:06:44.127Z",
+                    "user": {
+                      "id": 2,
+                      "name": "User2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Id no parâmetro inválido",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você precisa informar o código(id) no parâmetro!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Postagem não encontrada",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Postagem não encontrada!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/findByUser/:id_user": {
+      "get": {
+        "summary": "Buscar postagens pelo id do usuário",
+        "description": "Efetuar busca de postagen existentes que estão relacionados a um usuário",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id_user",
+            "in": "params",
+            "description": "id do usuário que será utilizado para filtrar as postagens do mesmo",
+            "required": true
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postagens buscadas com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Postagens encontradas com sucesso!",
+                  "data": [
+                    {
+                      "id": 6,
+                      "title": "Titulo Post Teste 3",
+                      "description": "Descricao da postagem de teste 3",
+                      "likes": 1,
+                      "createdAt": "2023-11-22T12:12:29.858Z",
+                      "updatedAt": "2023-11-22T12:16:12.768Z",
+                      "user": {
+                        "id": 3,
+                        "name": "User1 - Edit"
+                      }
+                    },
+                    {
+                      "id": 7,
+                      "title": "Titulo Post Teste 4",
+                      "description": "Descricao da postagem de teste 4",
+                      "likes": 6,
+                      "createdAt": "2023-11-22T12:12:38.000Z",
+                      "updatedAt": "2023-11-22T12:16:29.733Z",
+                      "user": {
+                        "id": 3,
+                        "name": "User1 - Edit"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Id do usuário no parâmetro inválido",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você precisa informar o código do usuário(id_user) no parâmetro!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Postagens não encontradas",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Postagens não encontradas para esse usuário!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/like/:id": {
+      "put": {
+        "summary": "Curtir postagem pelo id",
+        "description": "Efetuar incremento de curtida(+1) em postagen existente",
+        "tags": ["Post"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "id da postagem que será utilizada para efetuar curtida",
+            "required": true
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Postagem curtida com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Postagem recebeu +1 like(curtida)!",
+                  "data": {
+                    "id": 7,
+                    "title": "Titulo Post Teste 4",
+                    "description": "Descricao da postagem de teste 4",
+                    "likes": 6,
+                    "id_user": 3,
+                    "createdAt": "2023-11-22T12:12:38.000Z",
+                    "updatedAt": "2023-11-22T12:16:29.733Z"
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Id no parâmetro inválido",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você precisa informar o código(id) no parâmetro!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Postagem não encontrada",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, provavelmente você está tentando alterar a curtida de uma postagem que não existe mais!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/comment": {
+      "post": {
+        "summary": "Criar um novo comentário",
+        "description": "Efetuar cadastro de um novo comentário para uma postagem",
+        "tags": ["Comment"],
+        "parameters": [
+          {
+            "name": "comment",
+            "in": "body",
+            "description": "Dados para criação",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommentRegister"
+            }
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado que será vinculado o comentário",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentário criado com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Comentário criado com sucesso!"
+                }
+              }
+            }
+          },
+          "402 - id_post": {
+            "description": "Codigo da postagem(id_post) obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O codigo da postagem é obrigatório!"
+                }
+              }
+            }
+          },
+          "402 - comment": {
+            "description": "Comentário obrigatório",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "O comentário é obrigatório!"
+                }
+              }
+            }
+          },
+          "404 - User": {
+            "description": "Hash do usuário logado especificado no token não foi encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Usuário especificado não encontrado!"
+                }
+              }
+            }
+          },
+          "404 - Post": {
+            "description": "Post especificado não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Postagem especificada não encontrada!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comment/:id": {
+      "delete": {
+        "summary": "Deletar um comentário existente",
+        "description": "Efetuar remoção de um comentário",
+        "tags": ["Comment"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "Id do comentário para ser removido",
+            "required": true
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Comentário deletado com sucesso"
+          },
+          "402": {
+            "description": "Id no parâmetro inválido",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você precisa informar o código(id) no parâmetro!"
+                }
+              }
+            }
+          },
+          "404 - User": {
+            "description": "Hash do usuário logado especificado no token não foi encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Usuário especificado não encontrado!"
+                }
+              }
+            }
+          },
+          "404 - Comment": {
+            "description": "Comentário não encontrado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Comentário especificado não encontrado!"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Não autorizado para deletar o comentário",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você não pode excluir esse comentário!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comment/findByPost/:id_post": {
+      "get": {
+        "summary": "Buscar comentários existentes vinculados a uma postagem",
+        "description": "Efetuar busca de comentários que estão vinculados a uma postagem",
+        "tags": ["Comment"],
+        "parameters": [
+          {
+            "name": "id_post",
+            "in": "params",
+            "description": "Id da postagem para ser filtrado os comentários",
+            "required": true
+          },
+          {
+            "name": "bearer token",
+            "in": "headers",
+            "description": "Token do usuário logado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Comentários encontrados com sucesso",
+            "content": {
+              "application/json": {
+                "example": {
+                  "msg": "Comentários encontrados com sucesso!",
+                  "data": [
+                    {
+                      "id": 5,
+                      "comment": "Comentario1",
+                      "createdAt": "2023-11-23T01:56:13.407Z",
+                      "updatedAt": "2023-11-23T01:56:13.407Z",
+                      "post": {
+                        "id": 4,
+                        "title": "Titulo Post Teste 1",
+                        "likes": 3
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Id no parâmetro inválido",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Você precisa informar o codigo da postagem(id_post) em params"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Comentários não encontrados",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Comentários não encontrados para essa postagem!"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error inesperado",
+            "content": {
+              "application/json": {
+                "example": {
+                  "error": "Aconteceu um erro, tente novamente mais tarde!"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserLogin": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "UserRegister": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        },
+        "confirm_password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+    "UserUpdate": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "format": "password"
+        }
+      }
+    },
+
+    "PostRegister": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+
+    "CommentRegister": {
+      "type": "object",
+      "properties": {
+        "id_post": {
+          "type": "number"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
